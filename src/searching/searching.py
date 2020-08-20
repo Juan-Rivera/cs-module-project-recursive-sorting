@@ -28,6 +28,7 @@ def agnostic_binary_search(arr, target):
     low = 0
     high = len(arr)-1
     middle = (low + high) // 2
+    isAscending = arr[high] > arr[low]
 
     if len(arr) == 0:
         return -1
@@ -35,14 +36,23 @@ def agnostic_binary_search(arr, target):
     if arr[middle] == target:
         print(middle)
         return middle
-    
+    if isAscending:
+        return binary_search(arr, target, low, high)
     else: 
-        # target is greater
-        if target > arr[middle]:
-            one_half = arr[middle:high + 1]
-        # target is less
-        elif target < arr[middle]:
-            one_half = arr[low:middle + 1]
-        print(one_half)
-        # goes through the binary search again (recursively) and the new array is the half that we took from above
-        return agnostic_binary_search(one_half, target)
+        return binary_search_opposite(arr, target, low, high)
+
+def binary_search_opposite(arr, target, low, high):
+    middle = (low + high) // 2
+
+    if len(arr) == 0:
+        return -1
+    elif low > high:
+        return -1 # not found
+    elif arr[middle] == target:
+        return middle
+    else:
+        if target < arr[middle]:
+            low = middle+1
+        else:      
+            high = middle-1
+        return binary_search_opposite(arr, target, low, high)

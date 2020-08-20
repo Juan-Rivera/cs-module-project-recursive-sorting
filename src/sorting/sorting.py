@@ -38,8 +38,11 @@ def merge(arrA, arrB):
 
 # TO-DO: implement the Merge Sort function below recursively
 def merge_sort(arr):
-    # Your code here
-
+    if len(arr) > 1:
+        middle = len(arr) // 2
+        left = merge_sort(arr[:middle])
+        right = merge_sort(arr[middle:])
+        arr = merge(left, right)
 
     return arr
 
